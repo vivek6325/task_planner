@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Task Planner</title>
     <link rel="stylesheet" href="style.css" />
 </head>
@@ -13,9 +13,9 @@
         <header>
             <h1>📅 Task Planner</h1>
             <div class="controls">
-                <button onclick="changeMonth(-1)">⬅️</button>
+                <button id="prev-month">⬅️</button>
                 <h2 id="month-year"></h2>
-                <button onclick="changeMonth(1)">➡️</button>
+                <button id="next-month">➡️</button>
             </div>
         </header>
 
@@ -23,28 +23,20 @@
 
         <section id="task-popup" class="popup hidden">
             <h2 id="popup-date">Tasks for </h2>
-
             <ul id="task-list"></ul>
 
             <form id="task-form" autocomplete="off">
                 <label for="task-input">Add Task:</label>
                 <input type="text" id="task-input" placeholder="Enter your task" required />
 
-                <label for="category">Category:</label>
-                <select id="category" required>
-                    <option value="Work">Work</option>
-                    <option value="Personal">Personal</option>
-                    <option value="Important">Important</option>
-                </select>
-
-                <button type="submit" style="margin: 20px;">Add Task</button>
+                <button type="submit">Add Task</button>
             </form>
 
-            <button type="button" onclick="closePopup()">Close</button>
+            <button type="button" id="close-popup">Close</button>
         </section>
     </main>
 
-    <footer class="footer">
+    <footer>
         <p>&copy; 2025 Task Planner | By Vivek Aripalli</p>
     </footer>
 
