@@ -1,0 +1,114 @@
+class TaskManager {
+    constructor() {
+        this.tasks = JSON.parse(localStorage.getItem("tasks")) || {};
+    }
+
+    add(date, task, category) {
+        if (!this.tasks[date]) this.tasks[date] = [];
+        this.tasks[date].push({
+            task,
+            category
+        });
+        this.save();
+    }
+
+    get(date) {
+        return this.tasks[date] || [];
+    }
+
+    remove(date, index) {
+        this.tasks[date].splice(index, 1);
+        if (!this.tasks[date].length) delete this.tasks[date];
+        this.save();
+    }
+
+    save() {
+        localStorage.setItem("tasks", JSON.stringify(this.tasks));
+    }
+}
+
+const taskManager = new TaskManager();
+let selectedDate = '';
+let current = new Date();
+
+const calendar = document.getElementById('calendar');
+const taskPopup = document.getElementById('task-popup');
+const popupDate = document.getElementById('popup-date');
+const taskList = document.getElementById('task-list');
+const taskInput = document.getElementById('task-input');
+const taskForm = document.getElementById('task-form');
+const monthYear = document.getElementById('month-year');
+const categorySelect = document.getElementById('category');
+
+function renderCalendar() {
+    const year = current.getFullYear();
+    const month = current.getMonth();
+    calendar.innerHTML = '';
+    const firstDay = new Date(year, month, 1).getDay();
+    const days = new Date(year, month + 1, 0).getDate();
+
+    monthYear.textContent = `${current.toLocaleString('default', { month: 'long' })} ${year}`;
+
+    for (let i = 0; i < firstDay; i++) calendar.innerHTML += `<div></div>`;
+
+    for (let d = 1; d <= days; d++) {
+        const dateStr = `${year}-${month + 1}-${d}`;
+        const day = document.createElement('div');
+        day.className = 'day';
+        day.textContent = d;
+        if (taskManager.get(dateStr).length > 0) day.classList.add('has-task');
+        day.onclick = () => openPopup(dateStr);
+        calendar.appendChild(day);
+    }
+}
+
+function openPopup(dateStr) {
+    selectedDate = dateStr;
+    popupDate.textContent = `Tasks for ${dateStr}`;
+    taskInput.value = '';
+    renderTaskList();
+    taskPopup.classList.remove('hidden');
+}
+
+function closePopup() {
+    taskPopup.classList.add('hidden');
+}
+
+function renderTaskList() {
+    const tasks = taskManager.get(selectedDate);
+    taskList.innerHTML = '';
+    tasks.forEach(({
+        task,
+        category
+    }, i) => {
+        const li = document.createElement('li');
+        li.textContent = task;
+        li.classList.add(`category-${category}`);
+        li.title = `Click to delete`;
+        li.onclick = () => {
+            taskManager.remove(selectedDate, i);
+            renderTaskList();
+            renderCalendar();
+        };
+        taskList.appendChild(li);
+    });
+}
+
+taskForm.onsubmit = (e) => {
+    e.preventDefault();
+    const task = taskInput.value.trim();
+    const category = categorySelect.value;
+    if (task) {
+        taskManager.add(selectedDate, task, category);
+        taskInput.value = '';
+        renderTaskList();
+        renderCalendar();
+    }
+};
+
+function changeMonth(step) {
+    current.setMonth(current.getMonth() + step);
+    renderCalendar();
+}
+
+renderCalendar();

@@ -1,0 +1,111 @@
+body {
+    background: #f7f9fc;
+    color: #333;
+    font-family: 'Segoe UI', sans-serif;
+    transition: 0.3s ease;
+    padding: 20px;
+}
+
+.container {
+    max-width: 960px;
+    margin: auto;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    margin-bottom: 10px;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+#calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.day {
+    background: #ecf0f3;
+    border-radius: 8px;
+    padding: 20px 0;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    position: relative;
+}
+
+.popup {
+    position: fixed;
+    top: 12%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+    max-width: 400px;
+    width: 90%;
+}
+
+.hidden {
+    display: none;
+}
+
+#task-list li {
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.category-Work {
+    background-color: #d1ecf1;
+}
+
+.category-Personal {
+    background-color: #d4edda;
+}
+
+.category-Important {
+    background-color: #f8d7da;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+input,
+select,
+button {
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+}
+
+button {
+    background: #3498db;
+    color: white;
+    cursor: pointer;
+}
+
+footer {
+    text-align: center;
+    margin-top: 30px;
+}
